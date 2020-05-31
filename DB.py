@@ -1,111 +1,121 @@
+import psycopg2
+from psycopg2 import sql
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT 
 import json
-import csv
+from urllib.request import urlopen
+import ssl
+
+class DBError(Exception):
+    pass
 
 class DB:
-    tables = dict()
-    names = dict()
+    def __init__(self, address, port, login, password, name='Weed', structureURL='https://raw.githubusercontent.com/SharagaFun/DB-Laba-4/master/structure.sql'):
+    	self.structureURL = structureURL
+    	self.address = address
+    	self.port = port
+    	self.login = login
+    	self.password = password
+    	self.name = name
+    	self.__createDB ()
+    
+    def __createDB(self):
+    	conn_string = "host=" + self.address + " port=" + self.port + " dbname=postgres" + " user=" + self.login + " password=" + self.password
+    	try:
+    		conn = psycopg2.connect(conn_string)
+    		conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    		cursor = conn.cursor()
+    		cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (self.name, ))
+    		exists = cursor.fetchone()
+    		if not exists:
+    			cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(self.name)))
+    		conn.close()
+    		self.__connectDB()
+    		if not exists:
+    			self.__initDB(urlopen(self.structureURL, context=ssl._create_unverified_context()).read())
+    	except psycopg2.Error as e:
+    		raise DBError (str(e))
+    		
+    		
+    def __connectDB(self):
+    		try:
+	    		conn_string = "host=" + self.address + " port=" + self.port + " dbname=" + self.name + " user=" + self.login + " password=" + self.password
+	    		self.conn = psycopg2.connect(conn_string)
+	    		self.conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+	    		self.cursor = self.conn.cursor()
+	    	except psycopg2.Error as e:
+	    		raise DBError (str(e))
+    		
+    def __initDB(self, sql):
+    	try:
+    		self.cursor.execute(sql)
+    	except psycopg2.Error as e:
+    		raise DBError (str(e))
+    	
+    def deleteDB(self):
+    	conn_string = "host=" + self.address + " port=" + self.port + " dbname=postgres" + " user=" + self.login + " password=" + self.password
+    	try:
+    		self.conn.close()
+    		conn = psycopg2.connect(conn_string)
+    		conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    		cursor = conn.cursor()
+    		cursor.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(self.name)))
+    		conn.close()
+    		del self
+    	except psycopg2.Error as e:
+    		raise DBError (str(e))
+    		
+    def addItem(self, name, stock, price):
+    	self.cursor.execute("SELECT add_item(%s, %s, %s)", (name, stock, price, ))
+    	
+    def addOrder(self, item, quantity):
+    	self.cursor.execute("SELECT add_order(%s, %s)", (item, quantity, ))
+    	
+    def clearAssortment(self):
+    	self.cursor.execute("SELECT clear_assortment()")
+    	
+    def clearOrders(self):
+    	self.cursor.execute("SELECT clear_orders()")
+    	
+    def clearAll(self):
+    	self.cursor.execute("SELECT clear_all()")
+    	
+    def getAssortment(self):
+    	self.cursor.execute("SELECT get_assortment()")
+    	return self.cursor.fetchone()[0]
+    	
+    def getOrders(self):
+    	self.cursor.execute("SELECT get_orders()")
+    	return self.cursor.fetchone()[0]
+    
+    def getAssortment(self):
+    	self.cursor.execute("SELECT get_assortment()")
+    	return self.cursor.fetchone()[0]
+    
+    def search(self, query):
+    	self.cursor.execute("SELECT search(%s)", (query, ))
+    	return self.cursor.fetchone()[0]
+    	
+    def deleteByName(self, name):
+    	self.cursor.execute("SELECT delete_by_name(%s)", (name, ))
+    	
+    def deleteOrder(self, id):
+    	self.cursor.execute("SELECT delete_order(%s)", (id, ))
+    	
+    def deleteItem(self, id):
+    	self.cursor.execute("SELECT delete_item(%s)", (id, ))
+    	
+    def updateItemName(self, id, name):
+    	self.cursor.execute("SELECT update_item_name(%s, %s)", (id, name, ))
+    	
+    def updateItemStock(self, id, stock):
+    	self.cursor.execute("SELECT update_item_stock(%s, %s)", (id, stock, ))
+    	
+    def updateItemPrice(self, id, price):
+    	self.cursor.execute("SELECT update_item_price(%s, %s)", (id, price, ))
+   		
+    def updateOrderItem(self, id, item):
+   		self.cursor.execute("SELECT update_order_item(%s, %s)", (id, item, ))
+   		
+    def updateOrderQuantity(self, id, quantity):
+   		self.cursor.execute("SELECT update_order_quantity(%s, %s)", (id, quantity, ))
 
-    def __init__(self):
-        pass
-
-    def addRecord(self, record):
-        id = record['id']
-        del record['id']
-        if id in self.tables:
-            raise Exception('Duplicate record')
-            return
-        self.tables[id] = record
-        if record['name'] in self.names:
-            self.names[record['name']].append(id)
-        else:
-            self.names[record['name']] = [id]
-
-    def getRecordById(self, id):
-        try:
-            return self.tables[id]
-        except KeyError:
-            raise Exception('Record doesnt exist')
-
-    def getRecordsByName(self, name):
-        res = list()
-        if not name in self.names:
-            raise Exception('Record doesnt exist')
-        for id in self.names[name]:
-            record = self.getRecordById(id)
-            record.update({'id': id})
-            res.append(record)
-        return res
-
-    def getRecords(self, first=True):
-        res = list()
-        for num, id in enumerate(self.tables):
-            record = self.tables[id]
-            record.update({'id': id})
-            res.append(record)
-            if num >= 10 and first:
-                break
-        return res
-
-    def editRecord(self, oldid, record):
-        record['id'] = int(record['id'])
-        oldid = int(oldid)
-        if record['id'] != oldid and record['id'] in self.tables:
-            raise Exception('Duplicate record')
-            return
-        id = record['id']
-        del record['id']
-        if oldid not in self.tables:
-            raise Exception('Record doesnt exist')
-            return
-        del self.tables[oldid]
-        self.tables[id] = record
-        if record['name'] in self.names:
-            if oldid in self.names[record['name']]:
-                self.names[record['name']].remove(oldid)
-            self.names[record['name']].append(id)
-        else:
-            self.names[record['name']] = [id]
-
-    def delRecordById(self, id):
-        self.names[self.tables[id]['name']].remove(id)
-        del self.tables[id]
-
-    def delRecordsByName(self, name):
-        if not name in self.names:
-            raise Exception('Record doesnt exist')
-        records = self.names[name][:]
-        for id in records:
-            self.delRecordById(id)
-
-    def saveDBToFile(self, filename):
-        file = list()
-        file.append(self.tables)
-        file.append(self.names)
-        with open(filename, 'w') as outfile:
-            json.dump(file, outfile)
-
-    def saveDBToCSV(self, filename):
-        records=self.getRecords(False)
-        columns = ['id', 'name', 'amount', 'price']
-        with open(filename, 'w') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=columns)
-            writer.writeheader()
-            for data in records:
-                writer.writerow(data)
-
-    def flushDB(self):
-        self.tables = dict()
-        self.names = dict()
-
-    def importDBFromCSV(self, filename):
-        self.flushDB()
-        with open(filename, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                self.addRecord(row)
-
-    def initDBFromFile(self, filename):
-        with open(filename) as json_file:
-            file = json.load(json_file, object_hook=lambda d: {int(k) if k.isdigit() else k: v for k, v in d.items()})
-        self.tables = file[0]
-        self.names = file[1]
