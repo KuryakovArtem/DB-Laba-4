@@ -30,13 +30,13 @@ class DB:
     		self.__initDB()
     		
     def __connectDB(self):
-    		conn_string = "host=" + self.address + " port=" + self.port + " dbname=" + self.name + " user=" + self.login + " password=" + self.password
-    		self.conn = psycopg2.connect(conn_string)
-    		self.conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    		self.cursor = self.conn.cursor()
+    	conn_string = "host=" + self.address + " port=" + self.port + " dbname=" + self.name + " user=" + self.login + " password=" + self.password
+    	self.conn = psycopg2.connect(conn_string)
+    	self.conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    	self.cursor = self.conn.cursor()
     		
     def __initDB(self):
-    		self.cursor.execute(urlopen(self.structureURL, context=ssl._create_unverified_context()).read())
+    	self.cursor.execute(urlopen(self.structureURL, context=ssl._create_unverified_context()).read())
     	
     def deleteDB(self):
     	conn_string = "host=" + self.address + " port=" + self.port + " dbname=postgres" + " user=" + self.login + " password=" + self.password
