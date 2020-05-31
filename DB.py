@@ -98,8 +98,8 @@ class DB:
     	self.cursor.execute("SELECT update_item_price(%s, %s)", (id, price, ))
    		
     def updateOrderItem(self, id, item):
-   		self.cursor.execute("SELECT update_order_item(%s, %s)", (id, item, ))
+    	self.cursor.execute("SELECT update_order_item(%s, %s)", (id, item, ))
    		
-    def updateOrderQuantity(self, id, quantity):
-   		self.cursor.execute("SELECT update_order_quantity(%s, %s)", (id, quantity, ))
+    def updateOrderQuantity(self, id, quantity):    	
+    	self.cursor.execute("SELECT update_order_quantity(%s, %s)", (id, quantity, ))
 
