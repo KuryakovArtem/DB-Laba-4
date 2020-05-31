@@ -5,9 +5,6 @@ import json
 from urllib.request import urlopen
 import ssl
 
-class DBError(Exception):
-    pass
-
 class DB:
     def __init__(self, address, port, login, password, name='Weed', structureURL='https://raw.githubusercontent.com/SharagaFun/DB-Laba-4/master/structure.sql'):
     	self.structureURL = structureURL
@@ -20,49 +17,36 @@ class DB:
     
     def __createDB(self):
     	conn_string = "host=" + self.address + " port=" + self.port + " dbname=postgres" + " user=" + self.login + " password=" + self.password
-    	try:
-    		conn = psycopg2.connect(conn_string)
-    		conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    		cursor = conn.cursor()
-    		cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (self.name, ))
-    		exists = cursor.fetchone()
-    		if not exists:
-    			cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(self.name)))
-    		conn.close()
-    		self.__connectDB()
-    		if not exists:
-    			self.__initDB(urlopen(self.structureURL, context=ssl._create_unverified_context()).read())
-    	except psycopg2.Error as e:
-    		raise DBError (str(e))
-    		
+    	conn = psycopg2.connect(conn_string)
+    	conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    	cursor = conn.cursor()
+    	cursor.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (self.name, ))
+    	exists = cursor.fetchone()
+    	if not exists:
+    		cursor.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(self.name)))
+    	conn.close()
+    	self.__connectDB()
+    	if not exists:
+    		self.__initDB()
     		
     def __connectDB(self):
-    		try:
-	    		conn_string = "host=" + self.address + " port=" + self.port + " dbname=" + self.name + " user=" + self.login + " password=" + self.password
-	    		self.conn = psycopg2.connect(conn_string)
-	    		self.conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-	    		self.cursor = self.conn.cursor()
-	    	except psycopg2.Error as e:
-	    		raise DBError (str(e))
+    		conn_string = "host=" + self.address + " port=" + self.port + " dbname=" + self.name + " user=" + self.login + " password=" + self.password
+    		self.conn = psycopg2.connect(conn_string)
+    		self.conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    		self.cursor = self.conn.cursor()
     		
-    def __initDB(self, sql):
-    	try:
-    		self.cursor.execute(sql)
-    	except psycopg2.Error as e:
-    		raise DBError (str(e))
+    def __initDB(self):
+    		self.cursor.execute(urlopen(self.structureURL, context=ssl._create_unverified_context()).read())
     	
     def deleteDB(self):
     	conn_string = "host=" + self.address + " port=" + self.port + " dbname=postgres" + " user=" + self.login + " password=" + self.password
-    	try:
-    		self.conn.close()
-    		conn = psycopg2.connect(conn_string)
-    		conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    		cursor = conn.cursor()
-    		cursor.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(self.name)))
-    		conn.close()
-    		del self
-    	except psycopg2.Error as e:
-    		raise DBError (str(e))
+    	self.conn.close()
+    	conn = psycopg2.connect(conn_string)
+    	conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    	cursor = conn.cursor()
+    	cursor.execute(sql.SQL("DROP DATABASE {}").format(sql.Identifier(self.name)))
+    	conn.close()
+    	del self
     		
     def addItem(self, name, stock, price):
     	self.cursor.execute("SELECT add_item(%s, %s, %s)", (name, stock, price, ))
