@@ -293,8 +293,15 @@
     <addaction name="actionClear_table"/>
     <addaction name="actionClear_all_tables"/>
    </widget>
+   <widget class="QMenu" name="menuRecord">
+    <property name="title">
+     <string>Record</string>
+    </property>
+    <addaction name="actionDelete"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTable"/>
+   <addaction name="menuRecord"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionConnect">
@@ -346,6 +353,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Backspace</string>
    </property>
   </action>
  </widget>
