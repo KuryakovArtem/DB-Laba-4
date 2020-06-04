@@ -40,109 +40,231 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <property name="topMargin">
-            <number>6</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Enter name:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="nameSD"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QPushButton" name="searchButton">
-             <property name="text">
-              <string>Search</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="deleteButton">
-             <property name="text">
-              <string>Delete</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>ID</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Name</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Amount</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Price</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
-            <widget class="QLineEdit" name="id"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="name"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="amount"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="price"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="addButton">
-           <property name="text">
-            <string>Add record</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QTableWidget" name="tableWidget"/>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Assortment</string>
+        </attribute>
+        <widget class="QTableWidget" name="tableWidgetAssortment">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>110</y>
+           <width>709</width>
+           <height>321</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>709</width>
+           <height>98</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <property name="topMargin">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Enter name:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="nameSAssortment"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QPushButton" name="searchButtonAssortment">
+                <property name="text">
+                 <string>Search</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="deleteButtonAssortment">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>Stock</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Price</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLineEdit" name="nameAssortment"/>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="stockAssortment"/>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="priceAssortment"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="addButtonAssortment">
+              <property name="text">
+               <string>Add record</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Orders</string>
+        </attribute>
+        <widget class="QTableWidget" name="tableWidgetOrders">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>110</y>
+           <width>709</width>
+           <height>321</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>709</width>
+           <height>98</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <property name="topMargin">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Enter name:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="nameSOrders"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QPushButton" name="searchButtonOrders">
+                <property name="text">
+                 <string>Search</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="deleteButtonOrders">
+                <property name="text">
+                 <string>Delete</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Item</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Quantity</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLineEdit" name="ItemOrders"/>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="QuantityOrders"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="addButtonOrders">
+              <property name="text">
+               <string>Add record</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -161,40 +283,45 @@
      <string>File</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
-    <addaction name="actionExport_to_CSV"/>
-    <addaction name="actionImport_from_CSV"/>
+    <addaction name="actionConnect"/>
+    <addaction name="actionDrop_database"/>
+   </widget>
+   <widget class="QMenu" name="menuTable">
+    <property name="title">
+     <string>Table</string>
+    </property>
+    <addaction name="actionClear_table"/>
+    <addaction name="actionClear_all_tables"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuTable"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionOpen">
+  <action name="actionConnect">
    <property name="enabled">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Open</string>
+    <string>Connect</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="actionClear_all_tables">
    <property name="text">
-    <string>Save</string>
+    <string>Clear all tables</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string>Ctrl+Shift+Backspace</string>
    </property>
   </action>
-  <action name="actionSave_as">
+  <action name="actionClear_table">
    <property name="text">
-    <string>Save As...</string>
+    <string>Clear table</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
+    <string>Ctrl+Backspace</string>
    </property>
   </action>
   <action name="actionExport_to_CSV">
@@ -211,6 +338,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionDrop_database">
+   <property name="text">
+    <string>Drop database</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
