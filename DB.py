@@ -49,57 +49,56 @@ class DB:
     	del self
     		
     def addItem(self, name, stock, price):
-    	self.cursor.execute("SELECT add_item(%s, %s, %s)", (name, stock, price, ))
+    	self.cursor.callproc("add_item", (name, stock, price, ))
     	
     def addOrder(self, item, quantity):
-    	self.cursor.execute("SELECT add_order(%s, %s)", (item, quantity, ))
+    	self.cursor.callproc("add_order", (item, quantity, ))
     	
     def clearAssortment(self):
-    	self.cursor.execute("SELECT clear_assortment()")
+    	self.cursor.callproc("clear_assortment")
     	
     def clearOrders(self):
-    	self.cursor.execute("SELECT clear_orders()")
+    	self.cursor.callproc("clear_orders")
     	
     def clearAll(self):
-    	self.cursor.execute("SELECT clear_all()")
+    	self.cursor.callproc("clear_all")
     	
     def getAssortment(self):
-    	self.cursor.execute("SELECT get_assortment()")
+    	self.cursor.callproc("get_assortment")
     	return self.cursor.fetchone()[0]
     	
     def getOrders(self):
-    	self.cursor.execute("SELECT get_orders()")
+    	self.cursor.callproc("get_orders")
     	return self.cursor.fetchone()[0]
     
     def getAssortment(self):
-    	self.cursor.execute("SELECT get_assortment()")
+    	self.cursor.callproc("get_assortment")
     	return self.cursor.fetchone()[0]
     
     def search(self, query):
-    	self.cursor.execute("SELECT search(%s)", (query, ))
+    	self.cursor.callproc("search", (query, ))
     	return self.cursor.fetchone()[0]
     	
     def deleteByName(self, name):
-    	self.cursor.execute("SELECT delete_by_name(%s)", (name, ))
+    	self.cursor.callproc("delete_by_name", (name, ))
     	
     def deleteOrder(self, id):
-    	self.cursor.execute("SELECT delete_order(%s)", (id, ))
+    	self.cursor.callproc("delete_order", (id, ))
     	
     def deleteItem(self, id):
-    	self.cursor.execute("SELECT delete_item(%s)", (id, ))
+    	self.cursor.callproc("delete_item", (id, ))
     	
     def updateItemName(self, id, name):
-    	self.cursor.execute("SELECT update_item_name(%s, %s)", (id, name, ))
+    	self.cursor.callproc("update_item_name", (id, name, ))
     	
     def updateItemStock(self, id, stock):
-    	self.cursor.execute("SELECT update_item_stock(%s, %s)", (id, stock, ))
+    	self.cursor.callproc("update_item_stock", (id, stock, ))
     	
     def updateItemPrice(self, id, price):
-    	self.cursor.execute("SELECT update_item_price(%s, %s)", (id, price, ))
+    	self.cursor.callproc("update_item_price", (id, price, ))
    		
     def updateOrderItem(self, id, item):
-    	self.cursor.execute("SELECT update_order_item(%s, %s)", (id, item, ))
+    	self.cursor.callproc("update_order_item", (id, item, ))
    		
     def updateOrderQuantity(self, id, quantity):    	
-    	self.cursor.execute("SELECT update_order_quantity(%s, %s)", (id, quantity, ))
-
+    	self.cursor.callproc("update_order_quantity", (id, quantity, ))
