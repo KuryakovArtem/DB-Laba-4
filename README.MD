@@ -2,7 +2,7 @@
 
 (Пока это просто клон https://github.com/SharagaFun/DB-Laba)
 
-Testing dbfiddle: https://dbfiddle.uk/?rdbms=postgres_12&fiddle=6adee747a9229ac8f8ee493daf595fee
+[Testing dbfiddle](https://dbfiddle.uk/?rdbms=postgres_12&fiddle=6adee747a9229ac8f8ee493daf595fee)
 
 ![Тут должен быть скриншот](https://i.imgur.com/v8ud5Kv.png)
 
