@@ -186,31 +186,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <property name="topMargin">
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Enter name:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="nameSOrders"/>
-              </item>
-             </layout>
-            </item>
-            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <item>
-               <widget class="QPushButton" name="searchButtonOrders">
-                <property name="text">
-                 <string>Search</string>
-                </property>
-               </widget>
-              </item>
               <item>
                <widget class="QPushButton" name="deleteButtonOrders">
                 <property name="text">
