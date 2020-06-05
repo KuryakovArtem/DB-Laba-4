@@ -47,6 +47,7 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.deleteButtonOrders.clicked.connect(self.delOrders)
         self.searchButtonAssortment.clicked.connect(self.search)
         self.tableWidgetAssortment.itemChanged.connect(self.updateDataAssortment)
+        self.tableWidgetOrders.itemChanged.connect(self.updateDataOrders)
         self.tableWidgetAssortment.setColumnCount(4)
         self.tableWidgetAssortment.setHorizontalHeaderLabels(
             self.columnsAssortment)
@@ -205,5 +206,30 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             
     def updateDataAssortment(self, item):
     	if not self.settingdata:
-    		if item.column() == 1:
-    			self.db.updateItemName(self.tabledataAssortment[item.row()]['id'], item.text())
+    		try:
+    			if item.column() == 1:
+    				self.db.updateItemName(self.tabledataAssortment[item.row()]['id'], item.text())
+    			if item.column() == 2:
+    				self.db.updateItemStock(self.tabledataAssortment[item.row()]['id'], item.text())
+    			if item.column() == 3:
+    				self.db.updateItemPrice(self.tabledataAssortment[item.row()]['id'], item.text())
+    		except Exception as e:
+    			self.errorMessage(str(e))
+    		self.tabledataAssortment = self.db.getAssortment()
+    		self.setDataToTable(self.columnsAssortment,
+                                    self.tableWidgetAssortment,
+                                    self.tabledataAssortment)
+                           
+    def updateDataOrders(self, item):
+    	if not self.settingdata:
+    		try:
+    			if item.column() == 1:
+    				self.db.updateOrderItem(self.tabledataOrders[item.row()]['id'], item.text())
+    			if item.column() == 2:
+    				self.db.updateOrderQuantity(self.tabledataOrders[item.row()]['id'], item.text())
+    		except Exception as e:
+    			self.errorMessage(str(e))
+    		self.tabledataOrders = self.db.getOrders()
+    		self.setDataToTable(self.columnsOrders,
+                                    self.tableWidgetOrders,
+                                    self.tabledataOrders)
