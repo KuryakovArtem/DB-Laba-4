@@ -127,21 +127,6 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.setDataToTable(self.columnsOrders, self.tableWidgetOrders,
                                 self.tabledataOrders)
 
-    def updateData(self, item):
-        if not self.settingdata:
-            try:
-                newdata = self.tabledata[item.row()].copy()
-                id = newdata['id']
-                newdata[self.columns[item.column()]] = item.text()
-                rewritedata = newdata.copy()
-                self.db.editRecord(id, newdata)
-            except None as error:
-                self.errorMessage(str(error))
-                self.setDataToTable(self.tabledata)
-                return
-            self.tabledata[item.row()] = rewritedata
-            self.saved = False
-
     def setDataToTable(self, columns, table, data):
         if data is None or len(data) == 0:
             table.setRowCount(0)
