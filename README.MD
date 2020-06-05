@@ -20,4 +20,3 @@
 
 # Демонстрация работы
 [![Тут должно быть видео](https://img.youtube.com/vi/wnZQajNzmxc/0.jpg)](https://www.youtube.com/watch?v=wnZQajNzmxc)
-
