@@ -19,4 +19,5 @@
 (Возможно также находится в 4, 5 и 6, но мне лень думать, почему)
 
 # Демонстрация работы
-*Тут будет ссылка на ютуб*
+[![Тут должно быть видео](https://img.youtube.com/vi/wnZQajNzmxc/0.jpg)](https://www.youtube.com/watch?v=wnZQajNzmxc)
+
