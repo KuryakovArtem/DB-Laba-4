@@ -46,6 +46,7 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.deleteButtonAssortment.clicked.connect(self.delAssortmentByName)
         self.deleteButtonOrders.clicked.connect(self.delOrders)
         self.searchButtonAssortment.clicked.connect(self.search)
+        self.tableWidgetAssortment.itemChanged.connect(self.updateDataAssortment)
         self.tableWidgetAssortment.setColumnCount(4)
         self.tableWidgetAssortment.setHorizontalHeaderLabels(
             self.columnsAssortment)
@@ -200,3 +201,9 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                                     self.tabledataOrders)
         except Exception as e:
             self.errorMessage(str(e))
+            
+            
+    def updateDataAssortment(self, item):
+    	if not self.settingdata:
+    		if item.column() == 1:
+    			self.db.updateItemName(self.tabledataAssortment[item.row()]['id'], item.text())
