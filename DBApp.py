@@ -48,6 +48,10 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.searchButtonAssortment.clicked.connect(self.search)
         self.tableWidgetAssortment.itemChanged.connect(self.updateDataAssortment)
         self.tableWidgetOrders.itemChanged.connect(self.updateDataOrders)
+        self.actionDrop_database.triggered.connect(self.dropDB)
+        self.actionClear_table.triggered.connect(self.clearTable)
+        self.actionClear_all_tables.triggered.connect(self.clearAllTables)
+        self.actionDelete.triggered.connect(self.deleteRecord)
         self.tableWidgetAssortment.setColumnCount(4)
         self.tableWidgetAssortment.setHorizontalHeaderLabels(
             self.columnsAssortment)
@@ -70,6 +74,55 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         except Exception as e:
             self.errorMessage(str(e))
 
+    def dropDB(self):
+    	if self.db is None:
+            self.errorMessage("The database is not connected")
+            return
+    	if (QMessageBox.question(self, 'Sure?', 'Sure?', QMessageBox.No, QMessageBox.Yes) == QMessageBox.Yes):
+    		self.db.deleteDB()
+    		self.db=None
+    		self.tabledataAssortment = []
+    		self.setDataToTable(self.columnsAssortment,
+                                self.tableWidgetAssortment,
+                                self.tabledataAssortment)
+    		self.tabledataOrders = []
+    		self.setDataToTable(self.columnsOrders, self.tableWidgetOrders,
+                                self.tabledataOrders)
+    		
+
+    def clearTable(self):
+    	if self.db is None:
+            self.errorMessage("The database is not connected")
+            return
+    	if (QMessageBox.question(self, 'Sure?', 'Sure?', QMessageBox.No, QMessageBox.Yes) == QMessageBox.Yes):
+    		if self.tabWidget.currentIndex() == 0:
+	    		self.db.clearAssortment()
+	    		self.tabledataAssortment = self.db.getAssortment()
+	    		self.setDataToTable(self.columnsAssortment,
+	                                self.tableWidgetAssortment,
+	                                self.tabledataAssortment)
+    		else:
+    			self.db.clearOrders()
+	    		self.tabledataOrders = self.db.getOrders()
+	    		self.setDataToTable(self.columnsOrders,
+	                                self.tableWidgetOrders,
+	                                self.tabledataOrders)
+	                                
+    def clearAllTables(self):
+    	if self.db is None:
+            self.errorMessage("The database is not connected")
+            return
+    	if (QMessageBox.question(self, 'Sure?', 'Sure?', QMessageBox.No, QMessageBox.Yes) == QMessageBox.Yes):
+    		self.db.clearAll()
+    		self.tabledataAssortment = self.db.getAssortment()
+    		self.setDataToTable(self.columnsAssortment,
+	                                self.tableWidgetAssortment,
+	                                self.tabledataAssortment)
+    		self.tabledataOrders = self.db.getOrders()
+    		self.setDataToTable(self.columnsOrders,
+	                                self.tableWidgetOrders,
+	                                self.tabledataOrders)
+    
     def updateData(self, item):
         if not self.settingdata:
             try:
@@ -203,7 +256,13 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         except Exception as e:
             self.errorMessage(str(e))
             
-            
+    def deleteRecord(self):
+    	if self.tabWidget.currentIndex() == 0:
+    		self.delAssortment()
+    	else:
+    		self.delOrders()
+    
+                
     def updateDataAssortment(self, item):
     	if not self.settingdata:
     		try:
