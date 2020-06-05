@@ -43,8 +43,9 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.actionConnect.triggered.connect(self.w.show)
         self.addButtonAssortment.clicked.connect(self.addRecordToAssortment)
         self.addButtonOrders.clicked.connect(self.addRecordToOrders)
-        self.deleteButtonAssortment.clicked.connect(self.delAssortment)
+        self.deleteButtonAssortment.clicked.connect(self.delAssortmentByName)
         self.deleteButtonOrders.clicked.connect(self.delOrders)
+        self.searchButtonAssortment.clicked.connect(self.search)
         self.tableWidgetAssortment.setColumnCount(4)
         self.tableWidgetAssortment.setHorizontalHeaderLabels(
             self.columnsAssortment)
@@ -138,21 +139,27 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 self.errorMessage(str(e))
 
     def search(self):
-        text = self.nameSD.text()
+        text = self.nameSAssortment.text()
         if not text:
-            self.setDataToTable(self.db.getRecords())
+            self.tabledataAssortment = self.db.getAssortment()
+            self.setDataToTable(self.columnsAssortment,
+                                    self.tableWidgetAssortment,
+                                    self.tabledataAssortment)
             return
         try:
-            self.setDataToTable(self.db.getRecordsByName(text))
-        except Exception as error:
-            self.errorMessage(str(error))
+            self.tabledataAssortment = self.db.search(text)
+            self.setDataToTable(self.columnsAssortment,
+                                    self.tableWidgetAssortment,
+                                    self.tabledataAssortment)
+        except Exception as e:
+            self.errorMessage(str(e))
 
     def delAssortmentByName(self):
         if self.db is None:
             self.errorMessage("The database is not connected")
             return
         name = self.nameSAssortment.text()
-        if (name):
+        if (len(name)>0):
             try:
                 self.db.deleteByName(name)
                 self.tabledataAssortment = self.db.getAssortment()
