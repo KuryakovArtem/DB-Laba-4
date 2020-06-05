@@ -139,6 +139,9 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
                 self.errorMessage(str(e))
 
     def search(self):
+        if self.db is None:
+            self.errorMessage("The database is not connected")
+            return
         text = self.nameSAssortment.text()
         if not text:
             self.tabledataAssortment = self.db.getAssortment()
@@ -185,6 +188,9 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             self.errorMessage(str(e))
 
     def delOrders(self):
+        if self.db is None:
+            self.errorMessage("The database is not connected")
+            return
         try:
             for i in self.tableWidgetOrders.selectedIndexes():
                 print(self.tabledataOrders)
