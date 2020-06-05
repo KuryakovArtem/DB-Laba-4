@@ -81,15 +81,18 @@ class DBApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
             return
         if (QMessageBox.question(self, 'Sure?', 'Sure?', QMessageBox.No,
                                  QMessageBox.Yes) == QMessageBox.Yes):
-            self.db.deleteDB()
-            self.db = None
-            self.tabledataAssortment = []
-            self.setDataToTable(self.columnsAssortment,
-                                self.tableWidgetAssortment,
-                                self.tabledataAssortment)
-            self.tabledataOrders = []
-            self.setDataToTable(self.columnsOrders, self.tableWidgetOrders,
-                                self.tabledataOrders)
+            try:                     	
+                self.db.deleteDB()
+                self.db = None
+                self.tabledataAssortment = []
+                self.setDataToTable(self.columnsAssortment,
+                            self.tableWidgetAssortment,
+                            self.tabledataAssortment)
+                self.tabledataOrders = []
+                self.setDataToTable(self.columnsOrders, self.tableWidgetOrders,
+                            self.tabledataOrders)
+            except Exception as e:
+                self.errorMessage(str(e))
 
     def clearTable(self):
         if self.db is None:
